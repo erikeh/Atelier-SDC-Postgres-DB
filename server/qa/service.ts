@@ -28,7 +28,7 @@ module.exports = class Questions {
       const relatedAnswers = await knex('answers')
         .leftJoin('answers_photos', 'answers_photos.answer_id', 'answers.answer_id')
         .where({ id_questions: question.question_id })
-        .select(['answers.answer_id as id', 'answers.body', 'answers.date', 'answers.answerer_name', 'answers.helpfulness', knex.raw('ARRAY_AGG(answers_photos.url) as photos')])
+        .select('answers.answer_id as id', 'answers.body', 'answers.date', 'answers.answerer_name', 'answers.helpfulness', knex.raw('ARRAY_AGG(answers_photos.url) as photos'))
         .groupBy('answers.answer_id');
       convertCSVDate(relatedAnswers, 'date');
 

@@ -3,7 +3,7 @@ import { Knex } from 'knex';
 
 
 const fastify = require('fastify')({
-  logger: true,
+  logger: false,
 });
 const fp: FastifyRegister = require('fastify-plugin');
 const db: Knex = require('./db/');
