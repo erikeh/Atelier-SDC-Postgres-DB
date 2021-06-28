@@ -5,8 +5,9 @@
   "main": "mongoDBschema.js",
   "scripts": {
     "start": "node_modules/.bin/tsc-watch --onSuccess \"node dist/index.js\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "database": "psql -U postgres -d atelier -f server/db/schema/questions.sql",
+    "database:test": "psql -U postgres -d testing -f server/db/schema/test.sql",
     "lint": "eslint --ignore-path .gitignore"
   },
   "repository": {
@@ -38,6 +39,7 @@
     "eslint": "^7.29.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.23.4",
+    "jest": "^27.0.6",
     "tsc-watch": "^4.4.0",
     "typescript": "^4.3.4"
   }
