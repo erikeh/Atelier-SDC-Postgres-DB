@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS questions_test;
+DROP TABLE IF EXISTS questions;
 
-CREATE TABLE questions_test (
+CREATE TABLE questions (
   question_id SERIAL,
   id_products INTEGER NULL DEFAULT NULL,
   question_body TEXT NULL DEFAULT NULL,
@@ -13,9 +13,9 @@ CREATE TABLE questions_test (
 );
 
 
-DROP TABLE IF EXISTS answers_test;
+DROP TABLE IF EXISTS answers;
 
-CREATE TABLE answers_test (
+CREATE TABLE answers (
   answer_id SERIAL,
   id_questions INTEGER NULL DEFAULT NULL,
   body TEXT NULL DEFAULT NULL,
@@ -28,9 +28,9 @@ CREATE TABLE answers_test (
 );
 
 
-DROP TABLE IF EXISTS answers_photos_test;
+DROP TABLE IF EXISTS answers_photos;
 
-CREATE TABLE answers_photos_test (
+CREATE TABLE answers_photos (
   id SERIAL,
   answer_id INTEGER NULL DEFAULT NULL,
   url TEXT NULL DEFAULT NULL,
@@ -38,18 +38,18 @@ CREATE TABLE answers_photos_test (
 );
 
 
-SELECT pg_catalog.setval(pg_get_serial_sequence('questions_test', 'question_id'), (SELECT MAX(question_id) FROM questions_test)+1);
-SELECT pg_catalog.setval(pg_get_serial_sequence('answers_test', 'answer_id'), (SELECT MAX(answer_id) FROM answers_test)+1);
-SELECT pg_catalog.setval(pg_get_serial_sequence('answers_photos_test', 'id'), (SELECT MAX(id) FROM answers_photos_test)+1);
+SELECT pg_catalog.setval(pg_get_serial_sequence('questions', 'question_id'), (SELECT MAX(question_id) FROM questions)+1);
+SELECT pg_catalog.setval(pg_get_serial_sequence('answers', 'answer_id'), (SELECT MAX(answer_id) FROM answers)+1);
+SELECT pg_catalog.setval(pg_get_serial_sequence('answers_photos', 'id'), (SELECT MAX(id) FROM answers_photos)+1);
 
-CREATE INDEX questions_index ON questions_test (
+CREATE INDEX questions_index ON questions (
   id_products
 );
 
-CREATE INDEX answers_index ON answers_test (
+CREATE INDEX answers_index ON answers (
   id_questions
 );
 
-CREATE INDEX answers_photos_index ON answers_photos_test (
+CREATE INDEX answers_photos_index ON answers_photos (
   answer_id
 );
