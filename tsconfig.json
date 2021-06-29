@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "allowJs": true,
+    "checkJs": true
+  },
+  "strict": true,
+  "include": ["server"], // need to update this based on what our main server folder will be
+  "exclude": ["node_modules"], // technically won't need to exclude this if the above include is structured properly
+  "lib": ["es6"]
+}
