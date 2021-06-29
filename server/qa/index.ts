@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyReply } from "fastify";
+import { FastifyInstance } from "fastify";
 
 const {
   getAllQuestionsOpts,
@@ -21,7 +21,6 @@ const {
   updateAnswerAsHelpfulHandler,
   reportAnswerHandler,
 } = require('./handlers');
-
 
 module.exports = function (fastify: FastifyInstance, opts, done: Function): void {
   fastify.get('/questions/', getAllQuestionsOpts, getAllQuestionsHandler);

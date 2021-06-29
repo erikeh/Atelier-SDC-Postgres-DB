@@ -1,12 +1,13 @@
 import { FastifyRegister } from "fastify";
 import { Knex } from 'knex';
+const fastify = require('fastify');
 
-const fastify = require('fastify')({
-  logger: {
-    level: 'info',
-    prettyPrint: true,
-  },
+
+const app = fastify({
+  logger: true,
+  prettyPrint: true,
 });
+
 const fp: FastifyRegister = require('fastify-plugin');
 const db: Knex = require('./db/');
 // model classes
@@ -17,22 +18,29 @@ const Reviews = require('./reviews/service');
 
 async function decorateFastifyInstance(): Promise<void> {
   const questionsAndAnswers = new QuestionsAndAnswers(db);
-  const products = new Products(db);
-  const reviews = new Reviews(db);
-  fastify.decorate('qna', questionsAndAnswers);
-  fastify.decorate('products', products);
-  fastify.decorate('reviews', reviews);
+  app.decorate('qna', questionsAndAnswers);
 }
 
-fastify
-  .register(fp(decorateFastifyInstance))
+app
+  .register(decorateFastifyInstance)
   .register(require('./products'), { prefix: '/products' })
   .register(require('./qa'), { prefix: '/qa' })
   .register(require('./reviews'), { prefix: '/reviews' });
 
-fastify.listen(3000)
-  .then((address: string) => console.log('listening on ', address))
-  .catch((err: ErrorEvent) => {
-    console.log('error starting server', err);
-    process.exit(1);
-  });
+// app.listen(3000)
+//   .then((address: string) => console.log('listening on ', address))
+//   .catch((err: ErrorEvent) => {
+//     console.log('error starting server', err);
+//   });
+
+// // this function exists to give the testing server instance the same
+module.exports = function createTestInstance(testDB) {
+  const instance = fastify();
+  const questionsAndAnswers = new QuestionsAndAnswers(testDB);
+  instance
+    .decorate('qna', questionsAndAnswers)
+    .register(decorateFastifyInstance)
+    .register(require('./products'), { prefix: '/products' })
+    .register(require('./qa'), { prefix: '/qa' });
+  return instance;
+};

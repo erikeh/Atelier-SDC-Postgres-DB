@@ -11,6 +11,6 @@
   },
   "strict": true,
   "include": ["server"], // need to update this based on what our main server folder will be
-  "exclude": ["node_modules"], // technically won't need to exclude this if the above include is structured properly
+  "exclude": ["node_modules", "server/__tests__"], // technically won't need to exclude this if the above include is structured properly
   "lib": ["es6"]
 }
