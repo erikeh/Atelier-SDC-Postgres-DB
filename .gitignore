@@ -1,3 +1,7 @@
 node_modules
+knexfile.js
 dist
 data
+schema2.sql
+CSV
+databases
