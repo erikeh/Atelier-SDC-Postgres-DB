@@ -81,7 +81,7 @@ describe('questions', () => {
       method: 'GET',
     })
     const result = serverResponse.json().results[0]
-    console.warn(serverResponse.json())
+
     expect(serverResponse.statusCode).toBe(200);
     expect(serverResponse.json().product_id).toBe(product_id);
     expect(result.question_body).toBe(body);
