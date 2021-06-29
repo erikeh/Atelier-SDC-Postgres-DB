@@ -35,6 +35,7 @@ afterAll(async () => {
   await server.close();
 });
 
+// testing integration tests
 describe('questions', () => {
 
   it('should create a new question via POST route', async () => {
@@ -51,19 +52,42 @@ describe('questions', () => {
       payload: requestPayload,
     });
 
-    const insertedData = await server.qna.db('questions')
-    .where({ id_products: requestPayload.product_id})
-    const question = insertedData[0];
-
     expect(serverResponse.statusMessage).toBe('Created');
-    expect(question.id_products).toEqual(requestPayload.product_id);
-    expect(question.question_body).toEqual(requestPayload.body);
-    expect(question.asker_name).toEqual(requestPayload.name);
-    expect(question.asker_email).toEqual(requestPayload.email);
-    // expect()
-    // const insertedQuestion = await server.qna.db('')
+    expect(serverResponse.statusCode).toBe(201);
 
-    console.warn(insertedData);
   });
 
-})
+  it('should get inserted question via GET route', async () => {
+    const requestPayload = {
+      body: 'this is is a test body',
+      name: 'this is a test name',
+      email: 'lorem@email.com',
+      product_id: 55555,
+    };
+    const body = requestPayload.body;
+    const name = requestPayload.name;
+    const email = requestPayload.email;
+    const product_id = requestPayload.product_id;
+
+    await server.inject({
+      url: `/qa/questions`,
+      method: 'POST',
+      payload: requestPayload,
+    });
+
+    const params = new URLSearchParams({ product_id })
+    const serverResponse = await server.inject({
+      url: `/qa/questions/?${params}`,
+      method: 'GET',
+    })
+    const result = serverResponse.json().results[0]
+    console.warn(serverResponse.json())
+    expect(serverResponse.statusCode).toBe(200);
+    expect(serverResponse.json().product_id).toBe(product_id);
+    expect(result.question_body).toBe(body);
+    expect(result.asker_name).toBe(name)
+    expect(result.asker_email).toBe(email)
+  })
+
+});
+
