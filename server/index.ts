@@ -18,6 +18,10 @@ async function decorateFastifyInstance(): Promise<void> {
 app
   .register(decorateFastifyInstance)
   .register(require('./qa'), { prefix: '/qa' })
+  .get('/', (req, reply) => {
+    console.log('good job you reached the server!');
+    reply.code(200).send('good job you reached the server!');
+  });
 
 app.listen(3000)
   .then((address: string) => console.log('listening on ', address))
