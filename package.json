@@ -4,7 +4,7 @@
   "description": "",
   "main": "mongoDBschema.js",
   "scripts": {
-    "start": "node_modules/.bin/tsc-watch --onSuccess \"node dist/index.js\"",
+    "start": "psql -U postgres -d atelier",
     "test": "jest --detectOpenHandles",
     "database": "psql -U postgres -d atelier -f server/db/schema/questions.sql",
     "database:test": "psql -U postgres -d testing -f server/db/schema/test.sql",
